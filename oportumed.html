@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oportumed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0c0d0f;
+      --surface: #131417;
+      --border:  #1f2227;
+      --accent:  #e8ff47;
+      --text:    #e2e4e9;
+      --muted:   #5a5f6b;
+      --green:   #a8c200;
+      --gbg:     #161c00;
+      --gbd:     #253000;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; line-height: 1.6; min-height: 100vh;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 0;
+    }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(12,13,15,.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      height: 58px; padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 1.1rem; letter-spacing: -.03em;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.3; transform:scale(.6); }
+    }
+    .header-right { font-size: .74rem; color: var(--muted); letter-spacing: .03em; }
+    .header-right strong { color: var(--accent); }
+
+    /* Search */
+    .search-wrap {
+      position: relative; max-width: 760px;
+      margin: 2rem auto 0; padding: 0 1.5rem;
+    }
+    .search-icon {
+      position: absolute; left: 2.3rem; top: 50%;
+      transform: translateY(-50%); color: var(--muted);
+      font-size: .85rem; pointer-events: none;
+    }
+    .search-input {
+      width: 100%; background: var(--surface);
+      border: 1px solid var(--border); color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: .875rem;
+      padding: .72rem 1rem .72rem 2.4rem;
+      border-radius: 8px; outline: none; transition: border-color .18s;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .search-input::placeholder { color: var(--muted); }
+
+    /* Main */
+    main {
+      position: relative; z-index: 1;
+      max-width: 760px; margin: 0 auto;
+      padding: 1.75rem 1.5rem 6rem;
+    }
+
+    /* Month section */
+    .month-section { margin-bottom: 3rem; }
+    .month-header {
+      display: flex; align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem; padding-bottom: .6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .month-title {
+      font-family: 'Syne', sans-serif; font-weight: 700;
+      font-size: .9rem; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--accent);
+    }
+    .month-count { font-size: .72rem; color: var(--muted); }
+
+    /* Cards */
+    .feed { display: flex; flex-direction: column; gap: .85rem; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      animation: up .35s ease both;
+      transition: border-color .2s, transform .2s;
+    }
+    .card:hover { border-color: #2e3239; transform: translateY(-1px); }
+    @keyframes up {
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .card-inner { display: grid; grid-template-columns: 3px 1fr; }
+    .card-bar { background: var(--accent); }
+    .card-body { padding: 1.15rem 1.35rem; }
+    .card-top {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: .65rem; gap: .5rem;
+    }
+    .card-profile { display: flex; align-items: center; gap: .5rem; }
+    .avatar {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg,#e8ff47,#ff6b35);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne',sans-serif; font-weight: 700;
+      font-size: .6rem; color: #0c0d0f; flex-shrink: 0;
+    }
+    .username { font-family:'Syne',sans-serif; font-weight:700; font-size:.8rem; }
+    .fullname { font-size:.7rem; color:var(--muted); }
+    .card-date { font-size:.7rem; color:var(--muted); white-space:nowrap; flex-shrink:0; }
+    .caption {
+      font-size:.875rem; color:#bfc2c9; line-height:1.65;
+      white-space:pre-wrap; word-break:break-word;
+      max-height:7.2em; overflow:hidden; position:relative;
+    }
+    .caption::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:2em;
+      background:linear-gradient(transparent,var(--surface));
+      pointer-events:none;
+    }
+    .caption.expanded { max-height:none; }
+    .caption.expanded::after { display:none; }
+    .card-footer {
+      margin-top:.9rem; display:flex; align-items:center;
+      justify-content:space-between; flex-wrap:wrap; gap:.4rem;
+    }
+    .keywords { display:flex; flex-wrap:wrap; gap:.3rem; }
+    .kw {
+      background:var(--gbg); color:var(--green); border:1px solid var(--gbd);
+      font-size:.66rem; font-weight:500;
+      padding:.18rem .5rem; border-radius:99px; letter-spacing:.02em;
+    }
+    .actions { display:flex; gap:.4rem; }
+    .btn {
+      font-size:.73rem; font-weight:500; color:var(--muted);
+      text-decoration:none; padding:.28rem .7rem;
+      border:1px solid var(--border); border-radius:6px;
+      transition:all .15s; cursor:pointer;
+      background:transparent; font-family:inherit;
+    }
+    .btn:hover { border-color:var(--accent); color:var(--accent); }
+    .card-img {
+      width:100%; object-fit:cover;
+      border-top:1px solid var(--border); display:block;
+    }
+
+    /* Empty */
+    .empty { text-align:center; padding:5rem 2rem; color:var(--muted); }
+    .empty span { font-size:2.5rem; display:block; margin-bottom:1rem; }
+    .empty h2 {
+      font-family:'Syne',sans-serif; font-weight:700;
+      font-size:1.05rem; color:var(--text); margin-bottom:.4rem;
+    }
+
+    /* Hidden by search */
+    .card.hidden { display:none; }
+    .month-section.hidden { display:none; }
+
+    @media(max-width:520px) {
+      header { padding:0 1rem; }
+      main,.search-wrap { padding-left:1rem; padding-right:1rem; }
+      .card-top { flex-wrap:wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="dot"></div>Oportumed</div>
+  <div class="header-right">Atualizado 01/03/2026 às 15:57 &nbsp;·&nbsp; <strong>2</strong> posts</div>
+</header>
+
+<div class="search-wrap">
+  <span class="search-icon">🔍</span>
+  <input class="search-input" id="search" type="text"
+         placeholder="Buscar por perfil, palavra-chave ou legenda…">
+</div>
+
+<main>
+  
+      <section class="month-section">
+        <div class="month-header">
+          <h2 class="month-title">Fevereiro 2026</h2>
+          <span class="month-count">2 posts</span>
+        </div>
+        <div class="feed">
+      <article class="card" style="animation-delay:0.00s">
+        <div class="card-inner">
+          <div class="card-bar"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-profile">
+                <div class="avatar">EE</div>
+                <div>
+                  <div class="username">@estagiohep</div>
+                  <div class="fullname">Estágio em Psiquiatria | Hospital Espírita de Pelotas</div>
+                </div>
+              </div>
+              <time class="card-date">17/02/2026 · 00:22</time>
+            </div>
+            <div class="caption" id="cap-DU1rczMj-kY">🚨 INSCRIÇÕES ABERTAS 🚨
+Estão abertas as inscrições para o Estágio de Psiquiatria no Hospital Espírita de Pelotas!
+
+Uma oportunidade para aprofundar seus conhecimentos com vivência prática supervisionada, aliada a aulas teóricas que irão complementar sua formação e fortalecer seu raciocínio clínico.
+
+Venha ampliar sua experiência acadêmica, conhecer a rotina de um hospital psiquiátrico e desenvolver habilidades essenciais para sua formação!
+
+🟢Edital e link disponíveis na nossa BIO🟢
+Prova teórica 02/03
+Prova oral e entrevista 03/03
+Inscrição: R$ 20,00</div>
+            <div class="card-footer">
+              <div class="keywords"><span class="kw">prova teórica</span><span class="kw">edital</span><span class="kw">inscrições</span><span class="kw">inscrição</span></div>
+              <div class="actions">
+                <button class="btn" onclick="toggleCap('DU1rczMj-kY',this)">Ver mais</button>
+                <a class="btn" href="https://instagram.com/p/DU1rczMj-kY" target="_blank" rel="noopener">Abrir ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img class="card-img" src="https://instagram.fpoa11-2.fna.fbcdn.net/v/t51.82787-15/631480044_17851517322673208_1114947201228299727_n.jpg?stp=dst-jpg_e35_tt6&amp;_nc_cat=109&amp;ig_cache_key=MzgzNDE2MTc1Mjg5Mjc2MjM5Mg%3D%3D.3-ccb7-5&amp;ccb=7-5&amp;_nc_sid=58cdad&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjEzNTB4MTY4Ny5zZHIuQzMifQ%3D%3D&amp;_nc_ohc=TGf5kelo1kUQ7kNvwENHz6t&amp;_nc_oc=Adkxl1L3eBJ3QsrBlvqD4lIUD8iGd3otpsSasqOr6slLrcDIVghX4s-CbLi-pvPvGMLaX5haayBIoNFZrgB0NRYg&amp;_nc_ad=z-m&amp;_nc_cid=0&amp;_nc_zt=23&amp;_nc_ht=instagram.fpoa11-2.fna&amp;_nc_gid=QDJUudmATiJ-3RVyD9E8UA&amp;_nc_ss=8&amp;oh=00_AfvRroD5w6RsvUrVcJH_P-JDIGRH_HP0tdrnytp_6LQTIQ&amp;oe=69AA409A" alt="" loading="lazy" onerror="this.style.display='none'">
+      </article>
+      <article class="card" style="animation-delay:0.04s">
+        <div class="card-inner">
+          <div class="card-bar"></div>
+          <div class="card-body">
+            <div class="card-top">
+              <div class="card-profile">
+                <div class="avatar">PE</div>
+                <div>
+                  <div class="username">@ecg.em.foco</div>
+                  <div class="fullname">Projeto Eletrocardiograma em Foco</div>
+                </div>
+              </div>
+              <time class="card-date">14/02/2026 · 21:50</time>
+            </div>
+            <div class="caption" id="cap-DUwQjA0j3k_">📢 Estão abertas as inscrições para o processo seletivo de novos membros do projeto ECG em Foco!
+
+Você é estudante de Medicina e quer aprofundar seus conhecimentos em Fisiologia Cardiovascular e Eletrocardiograma? Então essa é a sua oportunidade.
+
+O ECG em Foco é uma iniciativa dos alunos da Universidade Federal de Pelotas (UFPel), em parceria com o professor Paulo Cavalheiro Schenkel, que busca integrar os conteúdos de fisiologia à prática clínica. A proposta é explorar o eletrocardiograma (ECG) — exame essencial na rotina de qualquer médico — desde o início da formação acadêmica.
+
+Além do aprofundamento teórico, o projeto também é uma excelente oportunidade para desenvolver habilidades de ensino e aprimorar a didática!
+
+📌 Acesse o edital no link da bio e confira todas as informações para participar.
+📲 Siga nosso perfil e acompanhe as novidades!</div>
+            <div class="card-footer">
+              <div class="keywords"><span class="kw">Processo Seletivo</span><span class="kw">edital</span><span class="kw">inscrições</span><span class="kw">Acesse o edital</span></div>
+              <div class="actions">
+                <button class="btn" onclick="toggleCap('DUwQjA0j3k_',this)">Ver mais</button>
+                <a class="btn" href="https://instagram.com/p/DUwQjA0j3k_" target="_blank" rel="noopener">Abrir ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <img class="card-img" src="https://instagram.fpoa11-2.fna.fbcdn.net/v/t51.82787-15/629818993_17965401906033718_8669812592057061080_n.webp?_nc_cat=106&amp;ig_cache_key=MzgzMjYzNjA1NzY5OTk3MzQzOQ%3D%3D.3-ccb7-5&amp;ccb=7-5&amp;_nc_sid=58cdad&amp;efg=eyJ2ZW5jb2RlX3RhZyI6InhwaWRzLjE0NDB4MTgwMC5zZHIuQzMifQ%3D%3D&amp;_nc_ohc=7iAWRQ4ifNUQ7kNvwFZApsq&amp;_nc_oc=AdmdMLvrBq1qC__pJZU1lJw1_45pW9pY-g43nGQil30zQ5Jh-CwMrl4xvTdD4M4A3JcJFHR4wtCnCI9eHXooaj_j&amp;_nc_ad=z-m&amp;_nc_cid=0&amp;_nc_zt=23&amp;_nc_ht=instagram.fpoa11-2.fna&amp;_nc_gid=KCWF5ADfQ0oNyI92_wXDvQ&amp;_nc_ss=8&amp;oh=00_AfuwXkcR1ZTfwrzXCcRdjL3YCGhDhIoOrL-MXQhySIIDJg&amp;oe=69AA63C8" alt="" loading="lazy" onerror="this.style.display='none'">
+      </article></div>
+      </section>
+</main>
+
+<script>
+  function toggleCap(id, btn) {
+    const el = document.getElementById('cap-' + id);
+    if (!el) return;
+    el.classList.toggle('expanded');
+    btn.textContent = el.classList.contains('expanded') ? 'Ver menos' : 'Ver mais';
+  }
+
+  document.getElementById('search').addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    document.querySelectorAll('.month-section').forEach(sec => {
+      let any = false;
+      sec.querySelectorAll('.card').forEach(card => {
+        const match = !q || card.textContent.toLowerCase().includes(q);
+        card.classList.toggle('hidden', !match);
+        if (match) any = true;
+      });
+      sec.classList.toggle('hidden', !any);
+    });
+  });
+</script>
+
+</body>
+</html>
